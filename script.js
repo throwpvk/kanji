@@ -222,7 +222,7 @@ class EnhancedKanjiPractice {
                   d="${stroke.path}" 
                   fill="none" 
                   stroke="${color}" 
-                  stroke-width="6" 
+                  stroke-width="4" 
                   stroke-linecap="round" 
                   stroke-linejoin="round"
                   id="stroke-path-${index}"
@@ -236,7 +236,7 @@ class EnhancedKanjiPractice {
                 <circle 
                   cx="${pathStart.x}" 
                   cy="${pathStart.y}" 
-                  r="5" 
+                  r="3" 
                   fill="${color}" 
                   id="stroke-circle-${index}"
                   class="stroke-circle ${
