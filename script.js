@@ -601,9 +601,9 @@ class EnhancedKanjiPractice {
 
     // Activate next stroke or complete kanji
     if (this.currentStrokeIndex < this.currentKanjiData.strokes.length) {
-      setTimeout(() => this.activateNextStroke(), 300);
+      this.activateNextStroke();
     } else {
-      setTimeout(() => this.completeKanji(), 500);
+      this.completeKanji();
     }
 
     // Update UI
@@ -965,6 +965,6 @@ const kanjiPractice = new EnhancedKanjiPractice();
 
 // Load default kanji on page load
 window.addEventListener("load", () => {
-  document.getElementById("kanjiInput").value = "一";
+  document.getElementById("kanjiInput").value = "正";
   kanjiPractice.loadKanji();
 });
