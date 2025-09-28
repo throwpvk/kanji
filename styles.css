@@ -44,7 +44,7 @@ body {
 }
 
 .practice-btn {
-  padding: 15px 30px;
+  padding: 15px;
   font-size: 18px;
   background: linear-gradient(45deg, #667eea, #764ba2);
   color: white;
@@ -70,7 +70,7 @@ body {
 .svg-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   min-height: 500px;
   margin: 20px 0;
   position: relative;
@@ -160,7 +160,7 @@ body {
 }
 
 .control-btn {
-  padding: 12px 25px;
+  padding: 12px;
   border: none;
   border-radius: 25px;
   cursor: pointer;
@@ -301,7 +301,6 @@ body {
   text-align: center;
   color: #666;
   font-style: italic;
-  padding: 40px;
   font-size: 18px;
 }
 
@@ -462,12 +461,11 @@ body {
   }
 
   .kanji-input {
-    width: 250px;
+    width: 150px;
     font-size: 20px;
   }
 
   .controls {
-    flex-direction: column;
     align-items: center;
     gap: 10px;
   }

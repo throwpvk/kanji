@@ -236,7 +236,7 @@ class EnhancedKanjiPractice {
                 <circle 
                   cx="${pathStart.x}" 
                   cy="${pathStart.y}" 
-                  r="3" 
+                  r="4" 
                   fill="${color}" 
                   id="stroke-circle-${index}"
                   class="stroke-circle ${
