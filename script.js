@@ -870,6 +870,8 @@ class EnhancedKanjiPractice {
           path.style.strokeDashoffset = pathLength;
           path.style.opacity = "1";
 
+          circle.style.opacity = "1";
+
           // Animate stroke drawing
           path.style.transition =
             "stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1)";
@@ -965,6 +967,6 @@ const kanjiPractice = new EnhancedKanjiPractice();
 
 // Load default kanji on page load
 window.addEventListener("load", () => {
-  document.getElementById("kanjiInput").value = "正";
+  document.getElementById("kanjiInput").value = "愛";
   kanjiPractice.loadKanji();
 });
