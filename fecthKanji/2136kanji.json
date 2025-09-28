@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "kanji": "亜",
+    "old_kanji": "亞",
+    "radical": "二",
+    "stroke_num": 7,
+    "grade": "S",
+    "add_year": "",
+    "del_year": "",
+    "on_kun": "ア"
+  },
+  {
+    "id": 2,
+    "kanji": "哀",
+    "old_kanji": "",
+    "radical": "口",
+    "stroke_num": 9,
+    "grade": "S",
+    "add_year": "",
+    "del_year": "",
+    "on_kun": "アイ、あわ-れ、あわ-れむ"
+  },
+  {
+    "id": 3,
+    "kanji": "挨",
+    "old_kanji": "",
+    "radical": "手",
+    "stroke_num": 10,
+    "grade": "S",
+    "add_year": 2010,
+    "del_year": "",
+    "on_kun": "アイ"
+  },
+  {
+    "id": 4,
+    "kanji": "愛",
+    "old_kanji": "",
+    "radical": "心",
+    "stroke_num": 13,
+    "grade": 4,
+    "add_year": "",
+    "del_year": "",
+    "on_kun": "アイ"
+  },
+  {
+    "id": 5,
+    "kanji": "曖",
+    "old_kanji": "",
+    "radical": "日",
+    "stroke_num": 17,
+    "grade": "S",
+    "add_year": 2010,
+    "del_year": "",
+    "on_kun": "アイ"
+  },
+  {
+    "id": 6,
+    "kanji": "悪",
+    "old_kanji": "惡",
+    "radical": "心",
+    "stroke_num": 11,
+    "grade": 3,
+    "add_year": "",
+    "del_year": "",
+    "on_kun": "アク、オ、わる-い"
+  }
+]
