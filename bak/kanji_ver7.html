@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luyện Viết Kanji Tương Tác Nâng Cao</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="input-section">
+        <input
+          type="text"
+          class="kanji-input"
+          id="kanjiInput"
+          placeholder="Nhập kanji muốn luyện..."
+          maxlength="1"
+        />
+        <button
+          class="practice-btn"
+          id="practiceBtn"
+          onclick="kanjiPractice.loadKanji()"
+        >
+          Tải Kanji
+        </button>
+      </div>
+
+      <div class="settings-panel" id="settingsPanel">
+        <div class="settings-item">
+          <label>Độ chính xác yêu cầu:</label>
+          <select id="accuracySetting">
+            <option value="0.8">80% (Dễ)</option>
+            <option value="0.9" selected>90% (Bình thường)</option>
+            <option value="0.95">95% (Khó)</option>
+          </select>
+        </div>
+        <div class="settings-item">
+          <label>Hiệu ứng âm thanh:</label>
+          <input type="checkbox" id="soundSetting" checked />
+        </div>
+        <div class="settings-item">
+          <label>Hiệu ứng rung (mobile):</label>
+          <input type="checkbox" id="hapticSetting" checked />
+        </div>
+        <div class="settings-item">
+          <label>Hiển thị gợi ý hướng:</label>
+          <input type="checkbox" id="directionHintSetting" checked />
+        </div>
+      </div>
+
+      <div class="svg-practice-area">
+        <div
+          class="progress-container"
+          id="progressContainer"
+          style="display: none"
+        >
+          <div class="progress-info" id="progressInfo">
+            Bắt đầu từ nét số 1 - Nhấn vào circle và kéo theo đường nét
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+          </div>
+          <div class="stroke-indicators" id="strokeIndicators"></div>
+        </div>
+
+        <div class="svg-container">
+          <div id="svgDisplay" class="loading">
+            Nhập kanji để bắt đầu luyện viết tương tác nâng cao...
+          </div>
+        </div>
+
+        <div class="controls">
+          <button
+            class="control-btn reset-btn"
+            onclick="kanjiPractice.resetPractice()"
+          >
+            Làm lại
+          </button>
+          <button
+            class="control-btn demo-btn"
+            onclick="kanjiPractice.animateStrokes()"
+          >
+            Xem Demo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

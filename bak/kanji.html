@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luyện Viết Kanji với KanjiVG</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 2.5em;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .input-section {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .kanji-input {
+        padding: 15px 25px;
+        font-size: 24px;
+        border: 3px solid #667eea;
+        border-radius: 50px;
+        outline: none;
+        width: 300px;
+        text-align: center;
+        font-family: "Noto Sans CJK JP", serif;
+        transition: all 0.3s ease;
+      }
+
+      .kanji-input:focus {
+        border-color: #764ba2;
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .practice-btn {
+        padding: 15px 30px;
+        font-size: 18px;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        margin-left: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold;
+      }
+
+      .practice-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
+
+      .practice-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-top: 30px;
+      }
+
+      .demo-section,
+      .practice-section {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .section-title {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+      }
+
+      .kanji-display {
+        font-size: 120px;
+        font-family: "Noto Sans CJK JP", serif;
+        text-align: center;
+        margin: 20px 0;
+        color: #333;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        display: none;
+      }
+
+      .kanji-info {
+        text-align: center;
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 20px 0;
+        display: none;
+      }
+
+      .kanji-info p {
+        margin: 5px 0;
+        font-size: 16px;
+        display: none;
+      }
+
+      .svg-container {
+        text-align: center;
+        margin: 20px 0;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .kanji-svg {
+        width: 300px;
+        height: 300px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+      }
+
+      .canvas-container {
+        position: relative;
+        margin: 20px auto;
+        text-align: center;
+      }
+
+      #practiceCanvas {
+        border: 3px solid #667eea;
+        border-radius: 15px;
+        cursor: crosshair;
+        background: #fafafa;
+        transition: all 0.3s ease;
+      }
+
+      #practiceCanvas:hover {
+        border-color: #764ba2;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      .canvas-controls {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .control-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .clear-btn {
+        background: #ff6b6b;
+        color: white;
+      }
+
+      .clear-btn:hover {
+        background: #ff5252;
+        transform: translateY(-2px);
+      }
+
+      .demo-btn {
+        background: #4ecdc4;
+        color: white;
+      }
+
+      .demo-btn:hover {
+        background: #26a69a;
+        transform: translateY(-2px);
+      }
+
+      .stroke-info {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        text-align: center;
+        margin: 15px 0;
+        font-weight: bold;
+      }
+
+      .loading {
+        text-align: center;
+        color: #666;
+        font-style: italic;
+        padding: 20px;
+      }
+
+      .error {
+        background: #ffebee;
+        color: #c62828;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+        border-left: 4px solid #c62828;
+      }
+
+      .success {
+        background: #e8f5e8;
+        color: #2e7d32;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+        border-left: 4px solid #2e7d32;
+        display: none;
+      }
+
+      @keyframes strokeAnimation {
+        0% {
+          stroke-dashoffset: 1000;
+          opacity: 0.3;
+        }
+        10% {
+          opacity: 1;
+        }
+        100% {
+          stroke-dashoffset: 0;
+          opacity: 1;
+        }
+      }
+
+      .animated-stroke {
+        stroke-dasharray: 1000;
+        animation: strokeAnimation 3s ease-in-out forwards;
+      }
+
+      .stroke-number {
+        font-size: 4px;
+        font-weight: lighter;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .kanji-display {
+          font-size: 80px;
+        }
+
+        .kanji-input {
+          width: 250px;
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🖌️ Luyện Viết Kanji với KanjiVG</h1>
+
+      <div class="input-section">
+        <input
+          type="text"
+          class="kanji-input"
+          id="kanjiInput"
+          placeholder="Nhập kanji muốn luyện..."
+          maxlength="1"
+        />
+        <button class="practice-btn" id="practiceBtn" onclick="loadKanji()">
+          Tải Kanji
+        </button>
+      </div>
+
+      <div class="main-content">
+        <div class="demo-section">
+          <h3 class="section-title">📚 Kanji từ KanjiVG</h3>
+          <div class="kanji-display" id="kanjiDisplay">漢</div>
+          <div class="kanji-info">
+            <p>
+              <strong>Unicode:</strong> <span id="unicodeInfo">U+6F22</span>
+            </p>
+            <p><strong>Số nét:</strong> <span id="strokeCount">14</span></p>
+          </div>
+          <div class="svg-container">
+            <div id="svgDisplay" class="loading">
+              Nhập kanji để xem stroke order...
+            </div>
+          </div>
+          <div class="canvas-controls">
+            <button class="control-btn demo-btn" onclick="animateStrokes()">
+              Xem Demo
+            </button>
+          </div>
+        </div>
+
+        <div class="practice-section">
+          <h3 class="section-title">✍️ Vùng Luyện Tập</h3>
+          <div class="canvas-container">
+            <canvas id="practiceCanvas" width="300" height="300"></canvas>
+          </div>
+          <div class="canvas-controls">
+            <button class="control-btn clear-btn" onclick="clearCanvas()">
+              Xóa
+            </button>
+            <button class="control-btn demo-btn" onclick="showGuide()">
+              Hiển thị hướng dẫn
+            </button>
+          </div>
+          <div id="strokeInfo" class="stroke-info">
+            Vẽ theo thứ tự từ nét 1 đến nét cuối cùng
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentKanjiData = null;
+      let isDrawing = false;
+      let currentStroke = [];
+      let allStrokes = [];
+
+      // Canvas setup
+      const canvas = document.getElementById("practiceCanvas");
+      const ctx = canvas.getContext("2d");
+      ctx.strokeStyle = "#333";
+      ctx.lineWidth = 4;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+
+      // Mouse/Touch events for drawing
+      canvas.addEventListener("mousedown", startDrawing);
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", stopDrawing);
+      canvas.addEventListener("touchstart", handleTouch);
+      canvas.addEventListener("touchmove", handleTouch);
+      canvas.addEventListener("touchend", handleTouch);
+
+      function startDrawing(e) {
+        isDrawing = true;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        currentStroke = [{ x, y }];
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+      }
+
+      function draw(e) {
+        if (!isDrawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        currentStroke.push({ x, y });
+        ctx.lineTo(x, y);
+        ctx.stroke();
+      }
+
+      function stopDrawing() {
+        if (isDrawing) {
+          isDrawing = false;
+          allStrokes.push([...currentStroke]);
+          currentStroke = [];
+        }
+      }
+
+      function handleTouch(e) {
+        e.preventDefault();
+        const touch = e.touches[0] || e.changedTouches[0];
+        const mouseEvent = new MouseEvent(
+          e.type === "touchstart"
+            ? "mousedown"
+            : e.type === "touchmove"
+            ? "mousemove"
+            : "mouseup",
+          {
+            clientX: touch.clientX,
+            clientY: touch.clientY,
+          }
+        );
+        canvas.dispatchEvent(mouseEvent);
+      }
+
+      function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        allStrokes = [];
+        currentStroke = [];
+      }
+
+      // KanjiVG data loading
+      async function loadKanji() {
+        const input = document.getElementById("kanjiInput").value.trim();
+        if (!input) {
+          alert("Vui lòng nhập một kanji!");
+          return;
+        }
+
+        const kanjiChar = input.charAt(0);
+        const unicode = kanjiChar.codePointAt(0);
+        const hexCode = unicode.toString(16).padStart(5, "0");
+
+        document.getElementById("practiceBtn").disabled = true;
+        document.getElementById("svgDisplay").innerHTML =
+          '<div class="loading">Đang tải dữ liệu từ KanjiVG...</div>';
+
+        try {
+          // Tạo URL cho KanjiVG
+          const kanjivgUrl = `https://kanjivg.tagaini.net/kanjivg/kanji/${hexCode}.svg`;
+
+          // Fetch SVG data từ KanjiVG
+          const response = await fetch(kanjivgUrl, {
+            mode: "cors",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Không tìm thấy kanji: ${kanjiChar}`);
+          }
+
+          const svgText = await response.text();
+          await parseKanjiSVG(svgText, kanjiChar, unicode);
+        } catch (error) {
+          console.error("Lỗi khi tải kanji:", error);
+          document.getElementById("svgDisplay").innerHTML = `<div class="error">
+                        <strong>Lỗi:</strong> ${error.message}<br>
+                        <small>Hãy thử với kanji khác hoặc kiểm tra kết nối mạng</small>
+                    </div>`;
+        } finally {
+          document.getElementById("practiceBtn").disabled = false;
+        }
+      }
+
+      async function parseKanjiSVG(svgText, kanjiChar, unicode) {
+        try {
+          // Parse SVG
+          const parser = new DOMParser();
+          const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+
+          // Lấy tất cả các path elements (strokes)
+          const paths = svgDoc.querySelectorAll("path[d]");
+          const strokes = [];
+
+          paths.forEach((path, index) => {
+            const d = path.getAttribute("d");
+            const id = path.getAttribute("id") || `stroke-${index + 1}`;
+            if (d) {
+              strokes.push({
+                id: id,
+                path: d,
+                order: index + 1,
+              });
+            }
+          });
+
+          // Tạo SVG mới để hiển thị
+          const displaySVG = createDisplaySVG(strokes, kanjiChar);
+
+          currentKanjiData = {
+            character: kanjiChar,
+            unicode: unicode,
+            strokes: strokes,
+            strokeCount: strokes.length,
+          };
+
+          // Update UI
+          document.getElementById("kanjiDisplay").textContent = kanjiChar;
+          document.getElementById("unicodeInfo").textContent = `U+${unicode
+            .toString(16)
+            .toUpperCase()
+            .padStart(4, "0")}`;
+          document.getElementById("strokeCount").textContent = strokes.length;
+          document.getElementById("svgDisplay").innerHTML = displaySVG;
+          document.getElementById(
+            "strokeInfo"
+          ).textContent = `Kanji "${kanjiChar}" có ${strokes.length} nét. Vẽ theo thứ tự!`;
+
+          // Success message
+          setTimeout(() => {
+            const successDiv = document.createElement("div");
+            successDiv.className = "success";
+            successDiv.innerHTML = `<strong>Thành công!</strong> Đã tải kanji "${kanjiChar}" từ KanjiVG`;
+            document.getElementById("svgDisplay").appendChild(successDiv);
+            setTimeout(() => successDiv.remove(), 3000);
+          }, 500);
+        } catch (error) {
+          throw new Error(`Lỗi khi parse SVG: ${error.message}`);
+        }
+      }
+
+      function createDisplaySVG(strokes, kanjiChar) {
+        // Màu sắc cho các nét
+        const strokeColors = [
+          "#FF6B6B",
+          "#4ECDC4",
+          "#45B7D1",
+          "#96CEB4",
+          "#FFEAA7",
+          "#DDA0DD",
+          "#98D8C8",
+          "#F7DC6F",
+          "#BB8FCE",
+          "#85C1E9",
+          "#F8C471",
+          "#82E0AA",
+          "#F1948A",
+          "#85C1E9",
+          "#D7BDE2",
+          "#A3E4D7",
+          "#F9E79F",
+          "#D5A6BD",
+          "#A9DFBF",
+          "#F4D03F",
+        ];
+
+        let svgContent = `
+                <svg class="kanji-svg" viewBox="0 0 109 109" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Grid background -->
+                    <defs>
+                        <pattern id="grid" width="10.9" height="10.9" patternUnits="userSpaceOnUse">
+                            <path d="M 10.9 0 L 0 0 0 10.9" fill="none" stroke="#f0f0f0" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect width="109" height="109" fill="url(#grid)" />
+                    <rect width="109" height="109" fill="none" stroke="#ddd" stroke-width="1"/>
+                    
+                    <!-- Center guidelines -->
+                    <line x1="54.5" y1="0" x2="54.5" y2="109" stroke="#e0e0e0" stroke-width="1"/>
+                    <line x1="0" y1="54.5" x2="109" y2="54.5" stroke="#e0e0e0" stroke-width="1"/>
+            `;
+
+        strokes.forEach((stroke, index) => {
+          const color = strokeColors[index % strokeColors.length];
+          // Lấy điểm đầu của path để đặt số thứ tự
+          const pathStart = getPathStartPoint(stroke.path);
+
+          svgContent += `
+                    <path 
+                        d="${stroke.path}" 
+                        fill="none" 
+                        stroke="${color}" 
+                        stroke-width="3" 
+                        stroke-linecap="round" 
+                        stroke-linejoin="round"
+                        id="display-stroke-${index}"
+                        opacity="0.9"
+                    />
+                    <circle cx="${pathStart.x}" cy="${
+            pathStart.y
+          }" r="4" fill="${color}" opacity="0.8"/>
+                    <text x="${pathStart.x}" y="${
+            pathStart.y
+          }" class="stroke-number" fill="white">${index + 1}</text>
+                `;
+        });
+
+        svgContent += "</svg>";
+        return svgContent;
+      }
+
+      function getPathStartPoint(pathData) {
+        // Parse path data để lấy điểm đầu
+        const commands = pathData.match(/[ML][^ML]*/g);
+        if (commands && commands[0]) {
+          const firstCommand = commands[0];
+          const coords = firstCommand
+            .substring(1)
+            .split(/[,\s]+/)
+            .map((n) => parseFloat(n));
+          return { x: coords[0] || 20, y: coords[1] || 20 };
+        }
+        return { x: 20, y: 20 };
+      }
+
+      function animateStrokes() {
+        if (!currentKanjiData) {
+          alert("Vui lòng tải một kanji trước!");
+          return;
+        }
+
+        const svg = document.querySelector(".kanji-svg");
+        if (!svg) return;
+
+        // Reset all strokes
+        const paths = svg.querySelectorAll('path[id^="display-stroke-"]');
+        paths.forEach((path) => {
+          path.style.strokeDasharray = "";
+          path.style.strokeDashoffset = "";
+          path.style.animation = "";
+          path.style.opacity = "0.2";
+        });
+
+        // Animate each stroke in sequence
+        paths.forEach((path, index) => {
+          setTimeout(() => {
+            const pathLength = path.getTotalLength();
+            path.style.strokeDasharray = pathLength;
+            path.style.strokeDashoffset = pathLength;
+            path.style.opacity = "1";
+            path.style.animation = `strokeAnimation 1.5s ease-in-out forwards`;
+          }, index * 800);
+        });
+      }
+
+      function showGuide() {
+        if (!currentKanjiData) {
+          alert("Vui lòng tải một kanji trước!");
+          return;
+        }
+
+        // Clear canvas and show stroke order guide
+        clearCanvas();
+        ctx.globalAlpha = 0.3;
+        ctx.strokeStyle = "#667eea";
+        ctx.lineWidth = 2;
+
+        // Vẽ grid hướng dẫn
+        const gridSize = 30;
+        for (let i = 0; i <= canvas.width; i += gridSize) {
+          ctx.beginPath();
+          ctx.moveTo(i, 0);
+          ctx.lineTo(i, canvas.height);
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.moveTo(0, i);
+          ctx.lineTo(canvas.width, i);
+          ctx.stroke();
+        }
+
+        // Vẽ đường center
+        ctx.strokeStyle = "#764ba2";
+        ctx.beginPath();
+        ctx.moveTo(canvas.width / 2, 0);
+        ctx.lineTo(canvas.width / 2, canvas.height);
+        ctx.moveTo(0, canvas.height / 2);
+        ctx.lineTo(canvas.width, canvas.height / 2);
+        ctx.stroke();
+
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = "#333";
+        ctx.lineWidth = 4;
+      }
+
+      // Initialize
+      document
+        .getElementById("kanjiInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            loadKanji();
+          }
+        });
+
+      // Load default kanji on page load
+      window.addEventListener("load", () => {
+        document.getElementById("kanjiInput").value = "愛";
+        loadKanji();
+      });
+    </script>
+  </body>
+</html>
