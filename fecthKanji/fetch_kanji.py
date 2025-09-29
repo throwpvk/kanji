@@ -11,6 +11,8 @@ missing = []
 img_dir = "img"
 os.makedirs(img_dir, exist_ok=True)
 
+success_count = 0  # biến đếm số thứ tự thành công
+
 for idx, item in enumerate(kanji_list, start=1):
     k = item["kanji"]
     local_id = item["id"]
@@ -26,8 +28,11 @@ for idx, item in enumerate(kanji_list, start=1):
             missing.append(local_id)
             continue
 
-        # Lưu toàn bộ dữ liệu API
+        success_count += 1
+
+        # Lưu toàn bộ dữ liệu API, thêm số thứ tự
         result_item = {
+            "no": success_count,
             "word": data.get("word"),
             "phonetic": data.get("phonetic"),
             "means": data.get("means", []),
@@ -36,16 +41,16 @@ for idx, item in enumerate(kanji_list, start=1):
         }
         results.append(result_item)
 
-        # Tải ảnh nếu có
-        kanji_data = data["kanji"][0]  # lấy kanji đầu tiên
+        # Tải ảnh 1 & 2
+        kanji_data = data["kanji"][0]
         for i in [1, 2]:
             img_url = kanji_data.get(f"one_time_url_image_{i}")
             if img_url:
-                # parse query param i để lấy tên file gốc
+                # lấy tên file gốc từ query param i
                 parsed = urllib.parse.urlparse(img_url)
                 query = urllib.parse.parse_qs(parsed.query)
                 original_file = query.get('i', [f"{kanji_data['id']}_{i}.webp"])[0]
-                img_ext = original_file.split('.')[-1]  # đuôi file
+                img_ext = original_file.split('.')[-1]
                 img_path = os.path.join(img_dir, f"{kanji_data['id']}_{k}_{i}.{img_ext}")
                 try:
                     img_r = requests.get(img_url, timeout=10)
@@ -55,7 +60,7 @@ for idx, item in enumerate(kanji_list, start=1):
                 except Exception as e_img:
                     print(f"   ❌ Lỗi tải ảnh {i}: {e_img}")
 
-        time.sleep(0.2)  # delay nhẹ giữa các request
+        time.sleep(0.2)
 
     except Exception as e:
         print(f"❌ Lỗi {k} (id={local_id}): {e}")
